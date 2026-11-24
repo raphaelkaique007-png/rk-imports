@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111111">
+  <title>RK.IMPORTS | Moda Importada</title>
+  <meta name="description" content="Descubra seu estilo na RK.IMPORTS. Moda importada, qualidade e atitude.">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background: #f7f7f7; color: #171717; }
+    header { background: #101010; color: white; padding: 23px 6%; display: flex; justify-content: space-between; align-items: center; gap: 15px; flex-wrap: wrap; }
+    .logo { font-size: 27px; font-weight: 900; letter-spacing: 2px; }
+    header a { color: white; text-decoration: none; font-size: 14px; }
+    .hero { background: #161616; color: white; padding: 75px 7%; text-align: center; }
+    .hero p { color: #c6c6c6; margin: 14px 0 25px; line-height: 1.7; }
+    .hero h1 { font-size: clamp(32px, 6vw, 57px); letter-spacing: 1px; }
+    .button { display: inline-block; background: white; color: #111; border: none; padding: 14px 23px; border-radius: 3px; font-weight: bold; cursor: pointer; text-decoration: none; }
+    main { max-width: 1150px; margin: auto; padding: 45px 20px; }
+    .section-title { text-align: center; font-size: 27px; margin-bottom: 12px; }
+    .intro { text-align: center; color: #666; margin-bottom: 30px; }
+    .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px; }
+    .product { background: white; border: 1px solid #e7e7e7; padding: 15px; }
+    .product-image { height: 190px; background: #ededed; display: flex; align-items: center; justify-content: center; font-size: 45px; }
+    .product h3 { margin: 17px 0 8px; }
+    .product p { color: #666; font-size: 14px; line-height: 1.5; }
+    .price { font-size: 21px; font-weight: bold; margin: 14px 0; color: #111; }
+    .product select, .product input { width: 100%; padding: 11px; margin: 5px 0; border: 1px solid #ddd; background: white; }
+    .product button { width: 100%; background: #111; color: white; padding: 13px; border: 0; cursor: pointer; margin-top: 10px; }
+    .cart { background: white; margin-top: 35px; padding: 25px; border: 1px solid #e7e7e7; }
+    .cart h2 { margin-bottom: 15px; }
+    .cart-item { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid #eee; }
+    .cart-item button { border: 0; background: none; color: #b00020; cursor: pointer; }
+    .cart-total { font-size: 21px; font-weight: bold; margin: 20px 0; }
+    .checkout { width: 100%; background: #167a42; color: white; border: 0; padding: 15px; font-size: 16px; font-weight: bold; cursor: pointer; }
+    .notice { color: #666; font-size: 13px; line-height: 1.6; margin-top: 13px; }
+    .contact { background: #eaeaea; text-align: center; padding: 40px 20px; line-height: 2; }
+    footer { background: #111; color: #bbb; text-align: center; padding: 25px 15px; font-size: 13px; line-height: 1.8; }
+    @media (max-width: 500px) { header { justify-content: center; } .hero { padding: 55px 20px; } main { padding: 35px 14px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">RK.IMPORTS</div>
+    <a href="#produtos">PRODUTOS</a>
+    <a href="#carrinho">🛒 CARRINHO (<span id="cart-count">0</span>)</a>
+  </header>
+
+  <section class="hero">
+    <h1>SEU ESTILO. SUA IDENTIDADE.</h1>
+    <p>Moda importada, qualidade e atitude.<br>Encontre sua próxima peça favorita.</p>
+    <a class="button" href="#produtos">VER PRODUTOS</a>
+  </section>
+
+  <main>
+    <h2 class="section-title" id="produtos">NOSSAS PEÇAS</h2>
+    <p class="intro">Escolha seu produto, tamanho e cor.</p>
+    <div class="products" id="products"></div>
+
+    <section class="cart" id="carrinho">
+      <h2>Seu carrinho</h2>
+      <div id="cart-items">Seu carrinho está vazio.</div>
+      <div class="cart-total">Total: <span id="cart-total">R$ 0,00</span></div>
+      <button class="checkout" onclick="checkout()">FINALIZAR PEDIDO PELO WHATSAPP</button>
+      <p class="notice">O pedido será enviado para o WhatsApp da loja. O pagamento e a disponibilidade dos produtos deverão ser confirmados com a loja.</p>
+    </section>
+  </main>
+
+  <section class="contact">
+    <h2>Fale com a RK.IMPORTS</h2>
+    <p>Tem dúvidas sobre tamanhos, peças ou entregas?</p>
+    <p>Entre em contato pelo nosso WhatsApp.</p>
+    <a class="button" id="contact-link" href="#carrinho">FALAR COM A LOJA</a>
+  </section>
+
+  <footer>
+    <strong>RK.IMPORTS</strong><br>
+    Moda importada • Estilo • Qualidade<br>
+    © <span id="year"></span> RK.IMPORTS — Todos os direitos reservados.
+  </footer>
+
+  <script>
+    // PERSONALIZE AQUI OS PRODUTOS E OS PREÇOS.
+    // Troque os exemplos pelos seus produtos reais.
+    const products = [
+      { id: 1, name: "Camiseta importada", price: 85, sizes: ["P", "M", "G", "GG"], colors: ["Preto", "Branco", "Bege"] },
+      { id: 2, name: "Conjunto premium", price: 370, sizes: ["M", "G", "GG"], colors: ["Preto", "Branco", "Cinza"] },
+      { id: 3, name: "Bermuda estampada", price: 110, sizes: ["M", "G", "GG"], colors: ["Preto", "Estampado"] },
+      { id: 4, name: "Moletom Jordan", price: 180, sizes: ["P", "M", "G", "GG"], colors: ["Preto", "Cinza"] },
+      { id: 5, name: "Moletom gola alta", price: 220, sizes: ["M", "G", "GG"], colors: ["Preto", "Bege", "Marinho"] }
+    ];
+
+    // Coloque seu WhatsApp com DDI e DDD, somente números.
+    // Exemplo de formato: 5511999999999
+    const WHATSAPP_DA_LOJA = "";
+
+    let cart = [];
+
+    const money = value => value.toLocaleString("pt-BR", {
+      style: "currency", currency: "BRL"
+    });
+
+    function renderProducts() {
+      document.getElementById("products").innerHTML = products.map(p => `
+        <article class="product">
+          <div class="product-image" aria-label="Foto do produto">＋</div>
+          <h3>${p.name}</h3>
+          <p>Moda importada. Consulte a disponibilidade antes de comprar.</p>
+          <div class="price">${money(p.price)}</div>
+          <label>Tamanho
+            <select id="size-${p.id}">
+              ${p.sizes.map(s => `<option>${s}</option>`).join("")}
+            </select>
+          </label>
+          <label>Cor
+            <select id="color-${p.id}">
+              ${p.colors.map(c => `<option>${c}</option>`).join("")}
+            </select>
+          </label>
+          <button onclick="addToCart(${p.id})">ADICIONAR AO CARRINHO</button>
+        </article>
+      `).join("");
+    }
+
+    function addToCart(id) {
+      const p = products.find(item => item.id === id);
+      const size = document.getElementById(`size-${id}`).value;
+      const color = document.getElementById(`color-${id}`).value;
+      cart.push({ ...p, size, color, key: Date.now() + Math.random() });
+      renderCart();
+      document.getElementById("carrinho").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function removeItem(key) {
+      cart = cart.filter(item => item.key !== key);
+      renderCart();
+    }
+
+    function renderCart() {
+      document.getElementById("cart-count").textContent = cart.length;
+      document.getElementById("cart-total").textContent =
+        money(cart.reduce((sum, item) => sum + item.price, 0));
+
+      document.getElementById("cart-items").innerHTML = cart.length
+        ? cart.map(item => `
+          <div class="cart-item">
+            <span>${item.name} — ${item.size}, ${item.color}<br>${money(item.price)}</span>
+            <button onclick="removeItem(${item.key})">Remover</button>
+          </div>
+        `).join("")
+        : "Seu carrinho está vazio.";
+    }
+
+    function checkout() {
+      if (!cart.length) {
+        alert("Adicione pelo menos um produto ao carrinho.");
+        return;
+      }
+      if (!/^\d{12,15}$/.test(WHATSAPP_DA_LOJA)) {
+        alert("A loja ainda precisa configurar o número de WhatsApp no código.");
+        return;
+      }
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      const lines = cart.map(item =>
+        `- ${item.name} | Tamanho: ${item.size} | Cor: ${item.color} | ${money(item.price)}`
+      );
+      const message = `Olá! Quero fazer um pedido na RK.IMPORTS:\n\n${lines.join("\n")}\n\nTotal dos produtos: ${money(total)}\n\nPor favor, confirme a disponibilidade, o frete e as formas de pagamento.`;
+      window.open(
+        `https://wa.me/${WHATSAPP_DA_LOJA}?text=${encodeURIComponent(message)}`,
+        "_blank"
+      );
+    }
+
+    document.getElementById("contact-link").href = "#carrinho";
+    document.getElementById("year").textContent = new Date().getFullYear();
+    renderProducts();
+    renderCart();
+  </script>
+</body>
+</html>
